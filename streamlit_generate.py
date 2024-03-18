@@ -4,6 +4,7 @@ import numpy as np
 import json
 import random
 import streamlit.components.v1 as components
+import openai
 
 
 api_key = st.secrets["api_key"]
