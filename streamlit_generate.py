@@ -5,6 +5,9 @@ import json
 import random
 import streamlit.components.v1 as components
 
+openai.api_key = st.secrets['api_key']
+prompt = st.secrets['special_prompt']
+
 
 st.markdown("""
 <style>
@@ -22,7 +25,14 @@ if 'lyrics' not in st.session_state:
 if 'melody_ints' not in st.session_state:
     st.session_state.melody_ints = ""
 
+def songify(bad_lyrics):
 
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "system", "content": prompt},
+                  {"role": "user", "content": bad_lyrics}],
+    )
+    return response.choices[0].message['content'].strip()
 
 def load_chain_from_json(file_path):
     with open(file_path, 'r') as json_file:
@@ -80,10 +90,13 @@ for cluster in ["God", "Monarchy", "Communism", "Patriotism", "War"]:  # Example
 st.subheader('National Anthem Lyric Generator')
 
 selected_cluster = st.radio("Select an Anthem 'Style' (cluster):", list(messages.keys()))
+ai_enhanced = st.checkbox("AI Enhanced")
 
 if st.button('Generate Anthem Lyrics'):
-    # Generate lyrics and update the session state
-    st.session_state.lyrics = generate_lyrics(messages[selected_cluster])
+    if ai_enhanced:
+        st.session_state.lyrics = songify(generate_lyrics(messages[selected_cluster]))
+    else:
+        st.session_state.lyrics = generate_lyrics(messages[selected_cluster])
 
 st.write(st.session_state.lyrics)
 
