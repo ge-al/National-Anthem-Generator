@@ -91,7 +91,7 @@ for cluster in ["God", "Monarchy", "Communism", "Patriotism", "War"]:  # Example
 st.subheader('National Anthem Lyric Generator')
 
 selected_cluster = st.radio("Select an Anthem 'Style' (cluster):", list(messages.keys()))
-ai_enhanced = st.checkbox("AI Enhanced")
+ai_enhanced = st.checkbox("AI Enhance")
 
 if st.button('Generate Anthem Lyrics'):
     if ai_enhanced:
