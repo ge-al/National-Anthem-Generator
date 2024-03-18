@@ -107,7 +107,16 @@ st.markdown('<hr class="dotted"/>', unsafe_allow_html=True)
 
 st.subheader('National Anthem Melody Generator')
 
-melody_chain = load_chain_from_json('all_melodies.json')
+
+melody_selection = st.radio(
+    "Select a melodic cluster to generate from:",
+    ('All Clusters','Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4')
+)
+
+if melody_selection != 'All Clusters':
+    melody_chain = load_chain_from_json('melodies_' + melody_selection[-1] + '.json')
+else:
+    melody_chain = load_chain_from_json('all_melodies.json')
 
 valid_start_bigrams = [k for k in melody_chain.keys() if isinstance(k, tuple) and k[0] == '<START>' and k[1] != '<END>']
 start_bigram = random.choice(valid_start_bigrams)
