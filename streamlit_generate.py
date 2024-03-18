@@ -5,8 +5,11 @@ import json
 import random
 import streamlit.components.v1 as components
 
-openai.api_key = st.secrets['api_key']
-prompt = st.secrets['special_prompt']
+
+api_key = st.secrets["api_key"]
+special_prompt = st.secrets["special_prompt"]
+openai.api_key = api_key
+
 
 
 st.markdown("""
@@ -29,7 +32,7 @@ def songify(bad_lyrics):
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[{"role": "system", "content": prompt},
+        messages=[{"role": "system", "content": special_prompt},
                   {"role": "user", "content": bad_lyrics}],
     )
     return response.choices[0].message['content'].strip()
