@@ -99,7 +99,7 @@ if st.button('Generate Anthem Lyrics'):
     else:
         st.session_state.lyrics = generate_lyrics(messages[selected_cluster])
 
-st.write(st.session_state.lyrics)
+st.write(st.session_state.lyrics, unsafe_allow_html=True)
 
 
 st.markdown('<hr class="dotted"/>', unsafe_allow_html=True)
